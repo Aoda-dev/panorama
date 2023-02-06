@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+		<meta
+			name="viewport"
+			content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width, shrink-to-fit=no"
+		/>
+		<title>Hello :)</title>
+		<style>
+			html,
+			body {
+				margin: 0;
+				width: 100%;
+				height: 100%;
+				overflow: hidden;
+				background-color: #000;
+				font-family: calibri;
+			}
+
+			a:link,
+			a:visited {
+				color: #bdc3c7;
+			}
+
+			.credit {
+				position: absolute;
+				text-align: center;
+				width: 100%;
+				padding: 20px 0;
+				color: #fff;
+			}
+
+			#example-container {
+				max-width: 500px;
+				max-height: 500px;
+				min-width: 200px;
+				min-height: 250px;
+				background: #fff;
+				color: #000;
+				border-radius: 3px;
+				overflow: auto;
+				-webkit-overflow-scrolling: touch;
+				padding: 10px;
+			}
+
+			#example-container > iframe {
+				border: none;
+				width: 100%;
+			}
+
+			.title {
+				font-size: 1.5em;
+				text-align: center;
+				padding: 5px;
+			}
+
+			.text {
+				text-align: center;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="example-container" style="display: none">
+			<div class="title">Moi dom</div>
+			<div class="text">
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+				labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+				laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+				voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+				cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+			</div>
+		</div>
+
+		<script src="./Panorama/three.min.js.download"></script>
+		<script src="./Panorama/panolens.min.js.download"></script>
+
+		<script>
+			var panorama_center_floor = [];
+			var viewer;
+
+			panorama_center_floor['panorama'] = new PANOLENS.ImagePanorama('./img.jpeg');
+			panorama_center_floor['infospots'] = [
+				new PANOLENS.Infospot(500, PANOLENS.DataImage.Info),
+				new PANOLENS.Infospot(500, PANOLENS.DataImage.Info),
+			];
+
+			// Infospot with text.
+			panorama_center_floor['infospots'][0].position.set(4682, -1200, 1721);
+			panorama_center_floor['infospots'][0].addHoverElement(
+				document.getElementById('example-container'),
+				200
+			);
+
+			panorama_center_floor['infospots'][1].position.set(3082, 1200, 10021);
+			panorama_center_floor['infospots'][1].addHoverElement(
+				document.getElementById('example-container'),
+				-200
+			);
+
+			// Load all of our infospots into the panorama.
+			panorama_center_floor['infospots'].forEach(function (element) {
+				panorama_center_floor['panorama'].add(element);
+			});
+
+			// Add our panorama to the page.
+			viewer = new PANOLENS.Viewer({
+				autoHideInfospot: false,
+				output: 'overlay',
+			});
+
+			viewer.add(panorama_center_floor['panorama']);
+
+			// default
+			// To rotate modify the X in "X * Math.PI / 180".
+			viewer.getControl().rotateLeft((-110 * Math.PI) / 180);
+			viewer.getControl().update();
+		</script>
+	</body>
+</html>
